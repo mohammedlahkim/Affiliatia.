@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-create-article-products
+      author: thewise.
+      changes:
+        - createTable:
+            tableName: article_products
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: article_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position
+                  type: INT
+              - column:
+                  name: badge
+                  type: VARCHAR(50)
+      rollback:
+        - dropTable:
+            tableName: article_products
+
+  - changeSet:
+      id: 007a-article-products-article-fk
+      author: thewise.
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: article_products
+            baseColumnNames: article_id
+            referencedTableName: articles
+            referencedColumnNames: id
+            constraintName: fk_article_products_article
+            onDelete: CASCADE
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: article_products
+            constraintName: fk_article_products_article
+
+  - changeSet:
+      id: 007b-article-products-product-fk
+      author: thewise.
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: article_products
+            baseColumnNames: product_id
+            referencedTableName: products
+            referencedColumnNames: id
+            constraintName: fk_article_products_product
+            onDelete: CASCADE
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: article_products
+            constraintName: fk_article_products_product

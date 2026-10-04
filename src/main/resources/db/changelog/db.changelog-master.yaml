@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changes/001-create-users.yaml
+  - include:
+      file: db/changelog/changes/002-create-categories.yaml
+  - include:
+      file: db/changelog/changes/003-create-tags.yaml
+  - include:
+      file: db/changelog/changes/004-create-articles.yaml
+  - include:
+      file: db/changelog/changes/005-create-article-images.yaml
+  - include:
+      file: db/changelog/changes/006-create-products.yaml
+  - include:
+      file: db/changelog/changes/007-create-article-products.yaml
+  - include:
+      file: db/changelog/changes/008-create-article-tags.yaml
+  - include:
+      file: db/changelog/changes/009-create-click-events.yaml
+  - include:
+      file: db/changelog/changes/010-create-page-views.yaml
+  - include:
+      file: db/changelog/changes/011-create-search-query-stats.yaml
+  - include:
+      file: db/changelog/changes/012-create-redirects.yaml

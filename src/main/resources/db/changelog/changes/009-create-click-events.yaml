@@ -1,0 +1,71 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-create-click-events
+      author: thewise.
+      changes:
+        - createTable:
+            tableName: click_events
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: clicked_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: referrer
+                  type: VARCHAR(500)
+              - column:
+                  name: ip_hash
+                  type: VARCHAR(255)
+              - column:
+                  name: user_agent
+                  type: VARCHAR(500)
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: article_id
+                  type: BIGINT
+      rollback:
+        - dropTable:
+            tableName: click_events
+
+  - changeSet:
+      id: 009a-click-events-product-fk
+      author: thewise.
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: click_events
+            baseColumnNames: product_id
+            referencedTableName: products
+            referencedColumnNames: id
+            constraintName: fk_click_events_product
+            onDelete: CASCADE
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: click_events
+            constraintName: fk_click_events_product
+
+  - changeSet:
+      id: 009b-click-events-article-fk
+      author: thewise.
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: click_events
+            baseColumnNames: article_id
+            referencedTableName: articles
+            referencedColumnNames: id
+            constraintName: fk_click_events_article
+            onDelete: SET NULL
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: click_events
+            constraintName: fk_click_events_article

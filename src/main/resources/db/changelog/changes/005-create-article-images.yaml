@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-create-article-images
+      author: thewise.
+      changes:
+        - createTable:
+            tableName: article_images
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: file_path
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: alt_text
+                  type: VARCHAR(255)
+              - column:
+                  name: article_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropTable:
+            tableName: article_images
+
+  - changeSet:
+      id: 005a-article-images-fk
+      author: thewise.
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: article_images
+            baseColumnNames: article_id
+            referencedTableName: articles
+            referencedColumnNames: id
+            constraintName: fk_article_images_article
+            onDelete: CASCADE
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: article_images
+            constraintName: fk_article_images_article

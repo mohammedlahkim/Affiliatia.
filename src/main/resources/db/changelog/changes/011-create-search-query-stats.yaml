@@ -1,0 +1,66 @@
+databaseChangeLog:
+  - changeSet:
+      id: 011-create-search-query-stats
+      author: thewise.
+      changes:
+        - createTable:
+            tableName: search_query_stats
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: query
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: page_url
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: impressions
+                  type: INT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: clicks
+                  type: INT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position
+                  type: DOUBLE
+              - column:
+                  name: date
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: article_id
+                  type: BIGINT
+      rollback:
+        - dropTable:
+            tableName: search_query_stats
+
+  - changeSet:
+      id: 011a-search-query-stats-article-fk
+      author: thewise.
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: search_query_stats
+            baseColumnNames: article_id
+            referencedTableName: articles
+            referencedColumnNames: id
+            constraintName: fk_search_query_stats_article
+            onDelete: SET NULL
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: search_query_stats
+            constraintName: fk_search_query_stats_article

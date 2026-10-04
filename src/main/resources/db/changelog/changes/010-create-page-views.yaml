@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: 010-create-page-views
+      author: thewise.
+      changes:
+        - createTable:
+            tableName: page_views
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: path
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: viewed_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: referrer
+                  type: VARCHAR(500)
+              - column:
+                  name: bot
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: article_id
+                  type: BIGINT
+      rollback:
+        - dropTable:
+            tableName: page_views
+
+  - changeSet:
+      id: 010a-page-views-article-fk
+      author: thewise.
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: page_views
+            baseColumnNames: article_id
+            referencedTableName: articles
+            referencedColumnNames: id
+            constraintName: fk_page_views_article
+            onDelete: SET NULL
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: page_views
+            constraintName: fk_page_views_article
