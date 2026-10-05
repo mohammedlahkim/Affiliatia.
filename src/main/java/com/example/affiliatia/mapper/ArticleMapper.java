@@ -7,16 +7,22 @@ import org.mapstruct.*;
 
 @Mapper(
         componentModel = "spring",
-        uses = {CategoryMapper.class, TagMapper.class, ArticleProductMapper.class},
+        uses = {
+                CategoryMapper.class,
+                TagMapper.class,
+                ArticleProductMapper.class
+        },
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface ArticleMapper {
 
     ArticleResponse toResponse(Article article);
 
-
     Article toEntity(ArticleRequest request);
 
-
-    void updateEntityFromRequest(ArticleRequest request, @MappingTarget Article article);
+    @Mapping(target = "slug", ignore = true)
+    void updateEntityFromRequest(
+            ArticleRequest request,
+            @MappingTarget Article article
+    );
 }

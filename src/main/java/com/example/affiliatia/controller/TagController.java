@@ -3,6 +3,7 @@ package com.example.affiliatia.controller;
 import com.example.affiliatia.dto.request.TagRequest;
 import com.example.affiliatia.dto.response.TagResponse;
 import com.example.affiliatia.service.TagService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/tags")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class TagController {
 
     private final TagService tagService;

@@ -82,9 +82,33 @@ public class SecurityConfig {
                                 HttpMethod.DELETE,
                                 "/api/v1/categories/**"
                         ).hasRole("ADMIN")
+                                // Tags - lecture publique
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/v1/tags/**"
+                                ).permitAll()
+
+// Tags - création
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/api/v1/tags/**"
+                                ).hasAnyRole("ADMIN", "EDITOR")
+
+// Tags - modification
+                                .requestMatchers(
+                                        HttpMethod.PUT,
+                                        "/api/v1/tags/**"
+                                ).hasAnyRole("ADMIN", "EDITOR")
+
+// Tags - suppression
+                                .requestMatchers(
+                                        HttpMethod.DELETE,
+                                        "/api/v1/tags/**"
+                                ).hasRole("ADMIN")
 
                         // Tout le reste nécessite un login
                         .anyRequest().authenticated()
+
                 )
 
                 // Notre filtre JWT passe avant le filtre Spring standard
