@@ -7,11 +7,14 @@ import com.example.affiliatia.dto.request.ArticleRequest;
 import com.example.affiliatia.dto.response.ArticleResponse;
 import com.example.affiliatia.mapper.ArticleMapper;
 import com.example.affiliatia.service.ArticleService;
+import com.example.affiliatia.service.SchemaMarkupService;
 import com.example.affiliatia.service.SeoService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,11 +34,26 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleMapper articleMapper;
     private final SlugService slugService;
     private final SeoService seoService;
+    private final SchemaMarkupService schemaMarkupService;
+    private final UserRepository userRepository;
+
+    @Override
+    public String generateSchema(Long id) {
+
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Article introuvable")
+                );
+
+        return schemaMarkupService.generateArticleSchema(article);
+    }
     // CREATE
     @Override
     public ArticleResponse create(ArticleRequest request) {
 
         String slug = request.slug();
+
+
 
         // Aucun slug fourni → génération automatique
         if (slug == null || slug.isBlank()) {
@@ -56,6 +74,22 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         Article article = articleMapper.toEntity(request);
+
+        // AUTHOR
+
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        String email = authentication.getName();
+
+        User author = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new EntityNotFoundException(
+                                "Utilisateur connecté introuvable"
+                        )
+                );
+
+        article.setAuthor(author);
         // Important : mettre le slug généré dans l'entité +SEO
 
         article.setSlug(slug);
@@ -389,7 +423,10 @@ public class ArticleServiceImpl implements ArticleService {
                             .build();
 
             list.add(articleProduct);
+
         }
+
+
 
         return list;
     }

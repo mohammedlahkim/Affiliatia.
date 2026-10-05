@@ -24,5 +24,6 @@ public interface ArticleService {
 
     Page<ArticleResponse> searchByTitle(String title, Pageable pageable);
 
+    String generateSchema(Long id);
     void delete(Long id);
 }

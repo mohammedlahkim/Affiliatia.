@@ -1,14 +1,18 @@
 package com.example.affiliatia.controller;
 
+import com.example.affiliatia.Entity.Article;
 import com.example.affiliatia.Entity.ArticleStatus;
+import com.example.affiliatia.Repository.ArticleRepository;
 import com.example.affiliatia.dto.request.ArticleRequest;
 import com.example.affiliatia.dto.response.ArticleResponse;
 import com.example.affiliatia.service.ArticleService;
+import com.example.affiliatia.service.SchemaMarkupService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -69,5 +73,13 @@ public class ArticleController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         articleService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/schema")
+    public ResponseEntity<String> getSchema(@PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                articleService.generateSchema(id)
+        );
     }
 }

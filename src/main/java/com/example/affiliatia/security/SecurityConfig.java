@@ -105,6 +105,10 @@ public class SecurityConfig {
                                         HttpMethod.DELETE,
                                         "/api/v1/tags/**"
                                 ).hasRole("ADMIN")
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/v1/articles/*/schema"
+                                ).permitAll()
 
                         // Tout le reste nécessite un login
                         .anyRequest().authenticated()
