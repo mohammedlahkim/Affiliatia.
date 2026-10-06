@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/xmlsitemap")
 public class SiteMapController {
 
     private final SiteMapService sitemapService;

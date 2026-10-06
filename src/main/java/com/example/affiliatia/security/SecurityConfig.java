@@ -115,9 +115,9 @@ public class SecurityConfig {
                                         "/api/v1/articles/*/schema"
                                 ).permitAll()
                                 .requestMatchers(
-                                HttpMethod.GET,
-                                "/xmlsitemap/**"
-                               ).permitAll()
+                                        "/sitemap.xml",
+                                        "/robots.txt"
+                                ).permitAll()
 
 
                                 // Tout le reste nécessite un login
@@ -145,4 +145,6 @@ public class SecurityConfig {
     ) throws Exception {
         return config.getAuthenticationManager();
     }
+
+
 }
