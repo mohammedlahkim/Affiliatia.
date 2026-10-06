@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Configuration
 @EnableWebSecurity
@@ -109,8 +110,17 @@ public class SecurityConfig {
                                         HttpMethod.GET,
                                         "/api/v1/articles/*/schema"
                                 ).permitAll()
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/v1/articles/*/schema"
+                                ).permitAll()
+                                .requestMatchers(
+                                HttpMethod.GET,
+                                "/xmlsitemap/**"
+                               ).permitAll()
 
-                        // Tout le reste nécessite un login
+
+                                // Tout le reste nécessite un login
                         .anyRequest().authenticated()
 
                 )
