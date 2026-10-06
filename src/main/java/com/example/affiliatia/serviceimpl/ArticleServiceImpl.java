@@ -144,6 +144,12 @@ public class ArticleServiceImpl implements ArticleService {
                     articleProducts
             );
         }
+        // PUBLICATION
+        if (article.getStatus() == ArticleStatus.PUBLISHED
+                && article.getPublishedAt() == null) {
+
+            article.setPublishedAt(Instant.now());
+        }
 
         // SAVE
 
@@ -269,6 +275,11 @@ public class ArticleServiceImpl implements ArticleService {
 
             article.getArticleProducts()
                     .addAll(updatedProducts);
+        }
+        if (article.getStatus() == ArticleStatus.PUBLISHED
+                && article.getPublishedAt() == null) {
+
+            article.setPublishedAt(Instant.now());
         }
 
         // SAVE

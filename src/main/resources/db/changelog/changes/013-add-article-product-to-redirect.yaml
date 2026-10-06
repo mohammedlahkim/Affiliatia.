@@ -1,0 +1,33 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 013-add-article-product-to-redirect
+      author: thewise
+
+      changes:
+
+        - addColumn:
+            tableName: redirects
+            columns:
+
+              - column:
+                  name: article_id
+                  type: BIGINT
+
+              - column:
+                  name: product_id
+                  type: BIGINT
+
+        - addForeignKeyConstraint:
+            baseTableName: redirects
+            baseColumnNames: article_id
+            referencedTableName: articles
+            referencedColumnNames: id
+            constraintName: fk_redirect_article
+
+        - addForeignKeyConstraint:
+            baseTableName: redirects
+            baseColumnNames: product_id
+            referencedTableName: products
+            referencedColumnNames: id
+            constraintName: fk_redirect_product

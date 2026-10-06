@@ -23,3 +23,5 @@ databaseChangeLog:
       file: db/changelog/changes/011-create-search-query-stats.yaml
   - include:
       file: db/changelog/changes/012-create-redirects.yaml
+  - include:
+      file: db/changelog/changes/013-add-article-product-to-redirect.yaml

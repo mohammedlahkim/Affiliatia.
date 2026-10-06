@@ -29,4 +29,12 @@ public class Redirect {
     @Min(value = 300, message = "Le code HTTP doit être un code de redirection valide (ex: 301, 302)")
     @Max(value = 399, message = "Le code HTTP doit être un code de redirection valide")
     private int statusCode;
+
+    @ManyToOne
+    @JoinColumn(name = "article_id")
+    private Article article;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

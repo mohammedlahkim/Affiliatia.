@@ -118,6 +118,10 @@ public class SecurityConfig {
                                         "/sitemap.xml",
                                         "/robots.txt"
                                 ).permitAll()
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/r/**"
+                                ).permitAll()
 
 
                                 // Tout le reste nécessite un login

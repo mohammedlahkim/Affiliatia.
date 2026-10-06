@@ -7,7 +7,6 @@ import com.example.affiliatia.service.SiteMapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -20,7 +19,10 @@ public class SiteMapServiceImpl implements SiteMapService {
     public String generateSitemap() {
 
         List<Article> articles =
-                articleRepository.findByStatus(ArticleStatus.PUBLISHED);
+                articleRepository
+                        .findByStatusAndNoindexFalse(
+                                ArticleStatus.PUBLISHED
+                        );
 
         StringBuilder xml = new StringBuilder();
 
