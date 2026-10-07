@@ -115,6 +115,10 @@ public class SecurityConfig {
                                         "/api/v1/articles/*/schema"
                                 ).permitAll()
                                 .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/analytics/**"
+                                ).permitAll()
+                                .requestMatchers(
                                         "/sitemap.xml",
                                         "/robots.txt"
                                 ).permitAll()
