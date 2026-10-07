@@ -11,5 +11,10 @@ public interface AnalyticsService {
     List<ClicksPerDayResponse> getClicksPerDay();
     List<ClicksPerDayResponse> getClicksLast7Days();
     DashboardResponse getDashboard();
+    TotalPageViewsResponse getTotalPageViews();
+    List<TopViewedArticleResponse> getTopViewedArticles();
+    List<PageViewsPerDayResponse> getPageViewsPerDay();
+    List<PageViewsPerDayResponse> getPageViewsLast7Days();
+    List<ArticleCtrResponse> getArticleCtr();
     }
 

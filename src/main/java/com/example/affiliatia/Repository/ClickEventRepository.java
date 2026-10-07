@@ -48,4 +48,11 @@ FROM ClickEvent c
     List<Object[]> findClicksLast7Days(
             @Param("startDate") Instant startDate
     );
+    @Query("""
+    SELECT c.article.id, COUNT(c)
+    FROM ClickEvent c
+    WHERE c.article IS NOT NULL
+    GROUP BY c.article.id
+""")
+    List<Object[]> findClicksByArticle();
 }

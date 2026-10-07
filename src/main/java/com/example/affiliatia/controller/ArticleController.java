@@ -6,6 +6,7 @@ import com.example.affiliatia.Repository.ArticleRepository;
 import com.example.affiliatia.dto.request.ArticleRequest;
 import com.example.affiliatia.dto.response.ArticleResponse;
 import com.example.affiliatia.service.ArticleService;
+import com.example.affiliatia.service.PageViewService;
 import com.example.affiliatia.service.SchemaMarkupService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final PageViewService pageViewService;
 
     @Operation(summary = "Créer un article", description = "Crée un nouvel article avec ses catégories, tags et produits affiliés liés.")
     @ApiResponses(value = {
@@ -57,8 +59,20 @@ public class ArticleController {
 
     @Operation(summary = "Obtenir un article par Slug (SEO)")
     @GetMapping("/slug/{slug}")
-    public ResponseEntity<ArticleResponse> getBySlug(@PathVariable String slug) {
-        return ResponseEntity.ok(articleService.getBySlug(slug));
+    public ResponseEntity<ArticleResponse> getBySlug(
+            @PathVariable String slug,
+            @RequestHeader(value = "Referer", required = false) String referrer
+    ) {
+
+        ArticleResponse article = articleService.getBySlug(slug);
+
+        pageViewService.recordPageView(
+                "/api/v1/articles/slug/" + slug,
+                referrer,
+                article.id()
+        );
+
+        return ResponseEntity.ok(article);
     }
 
     @Operation(summary = "Lister les articles avec pagination")

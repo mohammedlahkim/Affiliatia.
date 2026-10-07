@@ -40,6 +40,26 @@ public class AnalyticsController {
     public DashboardResponse getDashboard() {
         return analyticsService.getDashboard();
     }
+    @GetMapping("/page-views")
+    public TotalPageViewsResponse getPageViews() {
+        return analyticsService.getTotalPageViews();
+    }
+    @GetMapping("/top-viewed-articles")
+    public List<TopViewedArticleResponse> getTopViewedArticles() {
+        return analyticsService.getTopViewedArticles();
+    }
+    @GetMapping("/page-views-per-day")
+    public List<PageViewsPerDayResponse> getPageViewsPerDay() {
+        return analyticsService.getPageViewsPerDay();
+    }
+    @GetMapping("/page-views-last-7-days")
+    public List<PageViewsPerDayResponse> getPageViewsLast7Days() {
+        return analyticsService.getPageViewsLast7Days();
+    }
+    @GetMapping("/article-ctr")
+    public List<ArticleCtrResponse> getArticleCtr() {
+        return analyticsService.getArticleCtr();
+    }
 
 
 }
